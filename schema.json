@@ -1,16 +1,15 @@
 {
    "$schema":"https://specs.frictionlessdata.io/schemas/table-schema.json",
-   "name":"objets-importants",
-   "title":"Schéma des objets importants",
-   "description":"Spécification du fichier d'échange relatif aux objets importants gérés par les collectivités.",
+   "name":"efficacite-energetique-analyse-couts-avantages",
+   "title":"Analyses coûts-avantages d'amélioration de l’efficacité énergétique",
+   "description":"Spécification du fichier d'échange relatif aux analyses coûts-avantages évaluant la faisabilité économique d’amélioration de l’efficacité énergétique de l’approvisionnement en chaleur et en froid.",
    "keywords":[
-      "objets",
-      "autre-tag"
+      "transition-ecologique",
+      "energie"
    ],
    "countryCode":"FR",
-   "homepage":"https://github.com/mon-orga/schema-objets-importants",
-   "path":"https://github.com/mon-orga/schema-objets-importants/raw/v0.1.0/schema.json",
-   "image":"https://github.com/mon-orga/schema-objets-importants/raw/v0.1.0/irve.png",
+   "homepage":"https://github.com/datagouv/schema-efficacite-energetique-analyse-couts-avantages",
+   "path":"https://github.com/datagouv/schema-efficacite-energetique-analyse-couts-avantages/raw/v0.1.0/schema.json",
    "licenses":[
       {
          "title":"Etalab Licence Ouverte 2.0",
@@ -22,46 +21,98 @@
       {
          "title":"Fichier valide (CSV)",
          "name":"exemple-valide-csv",
-         "path":"https://github.com/mon-orga/schema-objets-importants/raw/v0.1.0/exemple-valide.csv"
+         "path":"https://github.com/datagouv/schema-efficacite-energetique-analyse-couts-avantages/raw/v0.1.0/exemple-valide.csv"
       }
    ],
    "sources":[
       {
-         "title":"Arrêté du 12 janvier 2017 relatif aux objets importants",
-         "path":"https://beta.legifrance.gouv.fr/codes/id/LEGISCTA000031367685/2020-05-25"
+         "title":"Arrêté du xxxx relatif aux analyses coûts-avantages évaluant la faisabilité économique d’amélioration de l’efficacité énergétique de l’approvisionnement en chaleur et en froid",
+         "path":""
       }
    ],
-   "created":"2018-06-29",
-   "lastModified":"2019-05-06",
+   "created":"2026-05-13",
+   "lastModified":"2026-05-13",
    "version":"v0.1.0",
    "contributors":[
       {
-         "title":"John Smith",
-         "email":"john.smith@etalab.gouv.fr",
-         "organisation":"Etalab",
-         "role":"author"
+         "title": "Pierlou Ramade",
+         "email": "pierlou.ramade@data.gouv.fr",
+         "organisation": "DINUM",
+         "role": "author"
       },
       {
-         "title":"Jane Doe",
-         "email":"jane.doe@example.com",
-         "organisation":"Association très importante",
-         "role":"contributor"
+         "title": "Johan Richer",
+         "organisation": "DINUM",
+         "role": "author"
+      },
+      {
+         "title": "Angélique Lequai",
+         "organisation": "DGEC",
+         "role": "author"
       }
    ],
    "fields":[
       {
-         "name":"id",
-         "description":"Un identifiant unique de l'objet.",
-         "example":42,
-         "type":"integer",
+         "name":"siren_declarant",
+         "description":"Numéro SIREN de la personne morale déclarante",
+         "example":"130025265",
+         "type":"string",
+         "customCheck": "siren",
          "constraints":{
-            "required":true,
-            "minimum":1
+            "required":true
          }
       },
       {
-         "name":"date_creation",
-         "description":"La date de création de l'objet, au format ISO 8601 AAAA-MM-DD.",
+         "name":"nom_declarant",
+         "description":"Dénomination officielle de la personne morale",
+         "example":"DINUM",
+         "type":"string",
+         "constraints":{
+            "required":true
+         }
+      },
+      {
+         "name":"code_naf",
+         "description":"Code d'activité principale exercée (code NAF)",
+         "example":"47.72B",
+         "type":"string",
+         "constraints":{
+            "required":true,
+            "pattern": "^\\d\\d\\.\\d\\d[A-Z]$"
+         }
+      },
+      {
+         "name":"siret_projet",
+         "description":"Numéro SIRET de l’établissement faisant l’objet de l’analyse coûts-avantages",
+         "example":"13002526500013",
+         "type":"string",
+         "customCheck": "siret",
+         "constraints":{
+            "required":true
+         }
+      },
+      {
+         "name":"nom_projet",
+         "description":"Dénomination de l’établissement faisant l’objet de l’analyse",
+         "example":"DINUM",
+         "type":"string",
+         "constraints":{
+            "required":true
+         }
+      },
+      {
+         "name":"code_commune",
+         "description":"Code commune INSEE de l’établissement faisant l’objet de l’analyse",
+         "example":"63113",
+         "customCheck": "code-ommune-insee",
+         "type":"string",
+         "constraints":{
+            "required":true
+         }
+      },
+      {
+         "name":"date_analyse",
+         "description":"Date de réalisation de l’analyse, au format ISO 8601 AAAA-MM-DD.",
          "example":"2020-02-27",
          "type":"date",
          "constraints":{
@@ -69,23 +120,40 @@
          }
       },
       {
-         "name":"nom",
-         "description":"Le nom de l'objet.",
-         "example":"Brouette",
-         "type":"string",
+         "name":"chaleur_dispo",
+         "description":"Quantité de chaleur disponible (en kWh/an)",
+         "example":42,
+         "type":"integer",
          "constraints":{
             "required":true
          }
       },
       {
-         "name":"classification",
-         "description":"Classification de l'objet.",
-         "example":"Classification A",
-         "type":"string",
-         "constraints": {
-            "enum": ["Classification A", "Classification B", "Classification C"]
+         "name":"tmin",
+         "description":"Température minimale de la chaleur disponible (en °C)",
+         "example":42,
+         "type":"integer",
+         "constraints":{
+            "required":true
+         }
+      },
+      {
+         "name":"tmax",
+         "description":"Température maximale de la chaleur disponible (en °C)",
+         "example":42,
+         "type":"integer",
+         "constraints":{
+            "required":true
+         }
+      },
+      {
+         "name":"duree_exploitation",
+         "description":"Durée d’exploitation de l’installation (en jours)",
+         "example":42,
+         "type":"integer",
+         "constraints":{
+            "required":true
          }
       }
-   ],
-   "primaryKey":"id"
+   ]
 }
