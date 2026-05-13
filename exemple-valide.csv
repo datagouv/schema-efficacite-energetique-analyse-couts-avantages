@@ -1,4 +1,4 @@
-id,date_creation,nom,classification
-42,2020-02-27,Brouette,Classification A
-44,2020-02-25,Pelle,Classification C
-45,2020-02-25,Bus,Classification A
+siren_declarant,nom_declarant,code_naf,siret_projet,nom_projet,code_commune,date_analyse,chaleur_dispo,tmin,tmax,duree_exploitation
+130025265,DINUM,84.11Z,13002526500013,Projet 1,75107,2025-02-27,123,12,34,47
+120087010,DGEC,84.13Z,12008701000068,Projet 2,92062,2026-03-25,456,10,34,72
+385290309,ADEME,84.13Z,38529030900454,Projet 3,49007,2024-10-05,789,9,41,34
